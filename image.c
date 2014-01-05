@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/17 13:11:43 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/04 16:12:16 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/05 15:08:51 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,6 @@ t_mlx_img		*create_img(void *mlx_ptr, void *win_ptr, int width, int height)
 	mlx_img->img_ptr = mlx_new_image(mlx_ptr, width, height);
 	mlx_img->height = height;
 	mlx_img->width = width;
-	mlx_img->xgap = width / 2;
-	mlx_img->ygap = height / 4;
-	mlx_img->zoom = 100;
 	mlx_img->data = mlx_get_data_addr(mlx_img->img_ptr, &bpp, &size, &endian);
 	mlx_img->bpp = bpp;
 	mlx_img->size = size;

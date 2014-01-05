@@ -6,34 +6,12 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:41:06 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/03 20:27:44 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/05 21:02:16 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-t_player	*place_player(t_wall ***level)
-{
-	int		x;
-	int		y;
-
-	x = 0;
-	while (level[x])
-	{
-		y = 0;
-		while (level[x][y])
-		{
-			if (level[x][y]->type == 0)
-				return (player_new(SQUARE / 2 + (x * SQUARE),
-									SQUARE / 2 + (y * SQUARE),
-									level[x][y]->position->z, 0));
-			y++;
-		}
-		x++;
-	}
-	exit(ft_putendl_fd("No empty square in this map", 2));
-	return (NULL);
-}
 t_list		*init_list(char *argv, int fd, int *max)
 {
 	t_list	*list;
@@ -87,6 +65,26 @@ t_wall		***init_emptytab(int lines, int columns)
 	return (tab);
 }
 
+int			get_tabwidth(t_wall ***wall)
+{
+	int		i;
+
+	i = 0;
+	while (wall[0][i])
+		i++;
+	return (i);
+}
+
+int			get_tabheight(t_wall ***wall)
+{
+	int		i;
+
+	i = 0;
+	while (wall[i])
+		i++;
+	return (i);
+}
+
 t_wall		***init_tab(t_list *list, int *max)
 {
 	t_wall	***tab;
@@ -95,17 +93,17 @@ t_wall		***init_tab(t_list *list, int *max)
 	int		y;
 
 	tab = init_emptytab(ft_lstlen(list), *max);
-	x = 1;
+	y = 1;
 	while (list)
 	{
 		strtab = list->content;
-		y = 1;
+		x = 1;
 		while (*strtab)
 		{
-			tab[x][y] = wall_new(y, x, 0, (ft_atoi(*strtab++) != 0));
-			y++;
+			tab[y][x] = wall_new(x, y, 0, (ft_atoi(*strtab++) != 0));
+			x++;
 		}
-		x++;
+		y++;
 		list = list->next;
 	}
 	return (tab);

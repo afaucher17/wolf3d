@@ -6,11 +6,12 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/04 13:23:28 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/04 16:11:37 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/05 14:35:14 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "maths.h"
+#include "../libft.h"
 
 float		ft_pow(float nb, int p)
 {
@@ -28,19 +29,17 @@ long	ft_fact(long nb)
 	return (0);
 }
 
-float		ft_cos(int angle)
+float		ft_cos(float rad)
 {
 	float	acc;
 	int		con;
 	int		nb;
 	float	cos;
-	float	rad;
 
 	nb = 0;
 	con = -1;
 	cos = 1;
 	acc = 0.001;
-	rad = (PI * angle) / 180;
 	while (ft_abs(ft_pow(rad, 1 + nb) / ft_fact(1 + nb)) >= acc)
 	{
 		cos += con * (ft_pow(rad, 2 + nb) / ft_fact(2 + nb));
@@ -50,18 +49,16 @@ float		ft_cos(int angle)
 	return (cos);
 }
 
-float		ft_sin(int angle)
+float		ft_sin(float rad)
 {
 	float	acc;
 	int		con;
 	int		nb;
 	float	sin;
-	float	rad;
 
 	nb = 1;
 	con = -1;
 	acc = 0.001;
-	rad = (PI * angle) / 180;
 	sin = rad;
 	while (ft_abs(ft_pow(rad, 1 + nb) / ft_fact(1 + nb)) >= acc)
 	{
@@ -72,7 +69,7 @@ float		ft_sin(int angle)
 	return (sin);
 }
 
-float		ft_tan(int angle)
+float		ft_tan(float rad)
 {
-	return (ft_sin(angle) / ft_cos(angle));
+	return (ft_sin(rad) / ft_cos(rad));
 }

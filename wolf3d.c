@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 15:54:06 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/03 20:30:47 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/05 21:34:11 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,9 @@
 
 void			draw_image(t_mlx_img *img)
 {
-	t_wall		***tab;
-	int			x;
-	int			y;
-
-	tab = img->game->level;
-	x = 0;
-	while (tab[x])
-	{
-		y = 0;
-		while (tab[x][y])
-		{
-			ft_putnbr(tab[x][y]->type);
-			y++;
-		}
-		ft_putendl("");
-		x++;
-	}
-	ft_putstr("Player : ");
-	ft_putnbr(img->game->player->position->x);
-	ft_putstr(";");
-	ft_putnbr(img->game->player->position->y);
+	if (!img || !img->game || !img->game->player)
+		return ;
+	draw_walls(img->game, img->game->player, img);
 }
 
 int				expose_hook(t_mlx_img *img)
@@ -48,19 +30,11 @@ int				key_hook(int keycode, t_mlx_img *img)
 {
 	if (keycode == KEY_ESC)
 		exit(0);
-	img->zoom += (keycode == KEY_Z && img->zoom < 200) ? 5 : 0;
-	img->zoom -= (keycode == KEY_X && img->zoom > 5) ? 5 : 0;
-	img->ygap -= (keycode == KEY_UP && img->ygap > -(img->height)) ? 100 : 0;
-	img->ygap += (keycode == KEY_DOWN && img->ygap < img->height * 2) ? 100 : 0;
-	img->xgap += (keycode == KEY_RIGHT && img->xgap < img->width * 2) ? 100 : 0;
-	img->xgap -= (keycode == KEY_LEFT && img->xgap > -(img->width)) ? 100 : 0;
-	if (keycode == KEY_UP || keycode == KEY_DOWN || keycode == KEY_RIGHT
-			|| keycode == KEY_LEFT || keycode == KEY_Z || keycode == KEY_X)
-		img_redraw(img);
+	img = NULL;
 	return (0);
 }
 
-void			fdf(char *str, int fd)
+void			wolf3d(char *str, int fd)
 {
 	void		*mlx_ptr;
 	t_mlx_img	*mlx_img;
@@ -85,16 +59,16 @@ int				main(int argc, char **argv)
 	int			fd;
 
 	if (argc < 2)
-		ft_putendl_fd("usage: ./fdf file1", 2);
+		ft_putendl_fd("usage: ./wolf3d file1", 2);
 	else
 	{
 		fd = open(argv[1], O_RDONLY);
 		if (fd == -1)
 		{
-			perror(ft_strjoin("fdf: ", argv[1]));
+			perror(ft_strjoin("wolf3d: ", argv[1]));
 			return (1);
 		}
-		fdf(argv[1], fd);
+		wolf3d(argv[1], fd);
 	}
 	return (0);
 }

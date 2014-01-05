@@ -6,13 +6,14 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/20 14:37:27 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/03 18:52:48 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/05 14:09:14 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef __LIBFT_H__
 # define __LIBFT_H__
 # include <string.h>
+# include "maths/maths.h"
 typedef struct	s_list
 {
 	void			*content;

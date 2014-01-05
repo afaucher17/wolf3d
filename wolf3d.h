@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 15:56:49 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/03 20:21:38 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/05 21:02:29 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,16 @@
 # define KEY_DOWN 65364
 # define KEY_ESC 65307
 
+# define FOV 60
 # define SQUARE 64
-# define SIZE_X 2280
-# define SIZE_Y 1280
+# define SIZE_X 640
+# define SIZE_Y 400
 
 typedef struct	s_point
 {
-	long		x;
-	long		y;
-	long		z;
+	float		x;
+	float		y;
+	float		z;
 }				t_point;
 typedef struct	s_wall
 {
@@ -44,7 +45,8 @@ typedef struct	s_wall
 typedef struct	s_player
 {
 	t_point		*position;
-	int			angle;
+	float		rad;
+	float		zoom;
 }				t_player;
 typedef struct	s_game
 {
@@ -58,9 +60,6 @@ typedef struct	s_mlx_img
 	void		*img_ptr;
 	char		*data;
 	t_game		*game;
-	double		zoom;
-	int			xgap;
-	int			ygap;
 	int			bpp;
 	int			height;
 	int			width;
@@ -69,14 +68,19 @@ typedef struct	s_mlx_img
 }				t_mlx_img;
 t_mlx_img		*create_img(void *mlx_ptr, void *img_ptr
 							, int height, int width);
-t_point			*point_new(long x, long y, long z);
+t_point			*point_new(float x, float y, float z);
 t_wall			*wall_new(int x, int y, int z, char type);
 t_game			*game_new(t_wall ***level, t_player *player);
-t_player		*player_new(int x, int y, int z, int angle);
+t_player		*player_new(float x, float y, float z, float rad);
 t_player		*place_player(t_wall ***level);
+int				pixel_to_img(t_mlx_img *img, int x, int y, int z);
+char			outofbounds(t_wall ***level, t_point *point);
 int				draw_line(t_mlx_img *img, t_point *pt1, t_point *pt2);
 t_wall			***init_tab(t_list *list, int *max);
+int				get_tabwidth(t_wall ***tab);
+int				get_tabheight(t_wall ***tab);
 t_list			*init_list(char *argv, int fd, int *max);
+void			draw_walls(t_game *game, t_player *player, t_mlx_img *img);
 void			img_redraw(t_mlx_img *img);
 void			draw_image(t_mlx_img *img);
 #endif /* WOLF3D_H */
