@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:33:32 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 18:04:40 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/06 19:06:20 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 /*
 ** This function creates a new point
 */
-t_point		*point_new(float x, float y, float z)
+t_point				*point_new(float x, float y, float z)
 {
-	t_point	*point;
+	t_point			*point;
 
 	point = (t_point*)malloc(sizeof(t_point));
 	if (!point)
@@ -51,7 +51,7 @@ int					pixel_to_img(t_mlx_img *img, int x, int y, int color)
 /*
 ** Calculates the distance between two points.
 */
-float		point_distance(t_point *p1, t_point *p2, float rad)
+float				point_distance(t_point *p1, t_point *p2, float rad)
 {
 	return (ft_abs(ft_abs(p1->x - p2->x) / ft_cos(rad)));
 }
