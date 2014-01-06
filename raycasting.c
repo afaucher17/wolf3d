@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 20:31:02 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 18:56:50 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/06 19:03:55 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ float				vertical_raycast(t_game *game, float rad, t_player *player)
 	inter = point_new(0, 0, 0);
 	px = player->position->x;
 	py = player->position->y;
-	inter->x = (rad < PI / 2 || rad > (3 * PI / 2)) ?
-		(int)(px / SQR) * SQR + SQR
-		: (int)(px / SQR) * SQR - 1;
+	inter->x = (rad < PI / 2 || rad > (3 * PI / 2))
+				? (int)(px / SQR) * SQR + SQR
+				: (int)(px / SQR) * SQR - 1;
 	inter->y = py + ((px - inter->x) * ft_tan(rad));
 	xa = (rad < (PI / 2) || rad > (3 * PI / 2)) ? SQR : -SQR;
 	ya = (rad < PI) ? -ft_abs(SQR * ft_tan(rad)) : ft_abs(SQR * ft_tan(rad));

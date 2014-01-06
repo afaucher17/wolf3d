@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/11/22 15:09:56 by afaucher          #+#    #+#             */
-/*   Updated: 2013/12/18 18:49:46 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/06 19:00:32 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	negative(int n)
 	return (1);
 }
 
-char	*ft_itoa(int n)
+char		*ft_itoa(int n)
 {
 	int		digit;
 	long	numb;
