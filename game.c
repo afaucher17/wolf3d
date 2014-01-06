@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 18:59:09 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 17:52:22 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/06 19:08:47 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ t_player	*place_player(t_wall ***level)
 		while (level[y][x])
 		{
 			if (level[y][x]->type == 0)
-				return (player_new(SQUARE * 3 + (x * SQUARE),
-									SQUARE / 2 + (y * SQUARE),
+				return (player_new(SQR / 2 + (x * SQR),
+									SQR / 2 + (y * SQR),
 									level[y][x]->position->z, 0));
 			x++;
 		}
@@ -67,8 +67,8 @@ void		move_to(t_point *point, float rad, float dist)
 */
 char		outofbounds(t_wall ***level, t_point *point)
 {
-	return ((int)(point->x / SQUARE) >= get_tabwidth(level)
-			|| (int)(point->x / SQUARE) < 0
-			|| (int)(point->y / SQUARE) >= get_tabheight(level)
-			|| (int)(point->y / SQUARE) < 0);
+	return ((int)(point->x / SQR) >= get_tabwidth(level)
+			|| (int)(point->x / SQR) < 0
+			|| (int)(point->y / SQR) >= get_tabheight(level)
+			|| (int)(point->y / SQR) < 0);
 }
