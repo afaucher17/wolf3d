@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/04 13:23:28 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/05 14:35:14 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/06 12:55:11 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ float		ft_cos(float rad)
 	con = -1;
 	cos = 1;
 	acc = 0.001;
+	if (rad > PI / 2)
+		return (-ft_cos(rad - PI));
+	if (rad > PI / 4)
+		return (ft_sin((PI / 2) - rad));
 	while (ft_abs(ft_pow(rad, 1 + nb) / ft_fact(1 + nb)) >= acc)
 	{
 		cos += con * (ft_pow(rad, 2 + nb) / ft_fact(2 + nb));
@@ -60,6 +64,10 @@ float		ft_sin(float rad)
 	con = -1;
 	acc = 0.001;
 	sin = rad;
+	if (rad > PI / 2)
+		return (-ft_sin(rad - PI));
+	if (rad > PI / 4)
+		return (ft_cos((PI / 2) - rad));
 	while (ft_abs(ft_pow(rad, 1 + nb) / ft_fact(1 + nb)) >= acc)
 	{
 		sin += con * (ft_pow(rad, 2 + nb) / ft_fact(2 + nb));

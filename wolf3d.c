@@ -6,11 +6,12 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 15:54:06 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/05 21:34:11 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/06 13:42:32 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
+#include <stdio.h>
 
 void			draw_image(t_mlx_img *img)
 {
@@ -30,6 +31,17 @@ int				key_hook(int keycode, t_mlx_img *img)
 {
 	if (keycode == KEY_ESC)
 		exit(0);
+	if (keycode == KEY_RIGHT)
+		img->game->player->rad -= 0.05;
+	if (keycode == KEY_LEFT)
+		img->game->player->rad += 0.05;
+	if (keycode == KEY_UP)
+		img->game->player->position->x += 30;
+	if (keycode == KEY_DOWN)
+		img->game->player->position->x -= 30;
+	img->game->player->rad = ft_getrad(img->game->player->rad);
+	if (keycode)
+		img_redraw(img);
 	img = NULL;
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 15:56:49 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/05 21:02:29 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/06 14:32:32 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 
 # define FOV 60
 # define SQUARE 64
-# define SIZE_X 640
-# define SIZE_Y 400
+# define SIZE_X 1280
+# define SIZE_Y 800
 
 typedef struct	s_point
 {
