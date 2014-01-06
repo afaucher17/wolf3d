@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 18:59:09 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 14:32:16 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/06 17:52:22 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,15 @@ t_player	*place_player(t_wall ***level)
 	}
 	exit(ft_putendl_fd("No empty square in this map", 2));
 	return (NULL);
+}
+
+/*
+** Moves the point towards a direction
+*/
+void		move_to(t_point *point, float rad, float dist)
+{
+	point->x += ft_cos(rad) * dist;
+	point->y -= ft_sin(rad) * dist;
 }
 
 /*
