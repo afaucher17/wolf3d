@@ -6,13 +6,13 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/04 15:33:32 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 13:03:12 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 15:21:11 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "maths.h"
 
-float		ft_abs(float nb)
+double		ft_abs(double nb)
 {
 	float	abs;
 
@@ -20,7 +20,7 @@ float		ft_abs(float nb)
 	return (abs);
 }
 
-float		ft_getrad(float rad)
+double		ft_getrad(double rad)
 {
 	if (rad < 0)
 		return (ft_getrad(rad + 2 * PI));

@@ -6,13 +6,13 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 19:01:59 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/05 21:19:15 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 15:22:54 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-t_player		*player_new(float x, float y, float z, float rad)
+t_player		*player_new(double x, double y, double z, double rad)
 {
 	t_player	*new;
 

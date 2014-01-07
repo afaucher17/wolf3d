@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 15:54:06 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 14:56:35 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 15:23:22 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ int				key_hook(int keycode, t_mlx_img *img)
 	if (keycode == KEY_ESC)
 		exit(0);
 	if (keycode == KEY_RIGHT)
-		player->rad -= 0.25;
+		player->rad -= 0.15;
 	if (keycode == KEY_LEFT)
-		player->rad += 0.25;
+		player->rad += 0.15;
 	if (keycode == KEY_UP)
 		move_to(img->game->level, player->position, player->rad, 90);
 	if (keycode == KEY_DOWN)

@@ -6,14 +6,14 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/04 13:23:28 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 12:55:11 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 15:20:46 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "maths.h"
 #include "../libft.h"
 
-float		ft_pow(float nb, int p)
+double		ft_pow(double nb, int p)
 {
 	if (p == 0)
 		return (1);
@@ -29,12 +29,12 @@ long	ft_fact(long nb)
 	return (0);
 }
 
-float		ft_cos(float rad)
+double		ft_cos(double rad)
 {
-	float	acc;
+	double	acc;
 	int		con;
 	int		nb;
-	float	cos;
+	double	cos;
 
 	nb = 0;
 	con = -1;
@@ -53,12 +53,12 @@ float		ft_cos(float rad)
 	return (cos);
 }
 
-float		ft_sin(float rad)
+double		ft_sin(double rad)
 {
-	float	acc;
+	double	acc;
 	int		con;
 	int		nb;
-	float	sin;
+	double	sin;
 
 	nb = 1;
 	con = -1;
@@ -77,7 +77,7 @@ float		ft_sin(float rad)
 	return (sin);
 }
 
-float		ft_tan(float rad)
+double		ft_tan(double rad)
 {
 	return (ft_sin(rad) / ft_cos(rad));
 }

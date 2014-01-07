@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 20:31:02 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 12:08:39 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 19:32:24 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 /*
 ** Makes an horizontal calculation of the distance between the player and a wall
 */
-float				horizontal_raycast(t_game *game, float rad,
-										t_player *player)
+double				horizontal_raycast(t_game *game, double rad,
+										t_player *player, int *offset)
 {
 	t_point			*ip;
-	float			px;
-	float			py;
-	float			xa;
-	float			ya;
+	double			px;
+	double			py;
+	double			xa;
+	double			ya;
 
 	ip = point_new(0, 0, 0);
 	px = player->position->x;
@@ -38,23 +38,24 @@ float				horizontal_raycast(t_game *game, float rad,
 	{
 		ip->x += xa;
 		ip->y += ya;
-		if (outofbounds(game->level, ip->y / SQR
-					, (ip->x + ALEFT(rad)) / SQR))
+		if (outofbounds(game->level, ip->y / SQR, (ip->x + ALEFT(rad)) / SQR))
 			return (-1);
 	}
+	*offset = (int)(ip->x) % SQR;
 	return (point_distance(player->position, ip, rad));
 }
 
 /*
 ** Makes a vertical calculation of the distance between the player and a wall
 */
-float				vertical_raycast(t_game *game, float rad, t_player *player)
+double				vertical_raycast(t_game *game, double rad,
+									t_player *player, int *offset)
 {
 	t_point			*ip;
-	float			px;
-	float			py;
-	float			xa;
-	float			ya;
+	double			px;
+	double			py;
+	double			xa;
+	double			ya;
 
 	ip = point_new(0, 0, 0);
 	px = player->position->x;
@@ -73,6 +74,7 @@ float				vertical_raycast(t_game *game, float rad, t_player *player)
 		if (outofbounds(game->level, ip->y / SQR, ip->x / SQR))
 			return (-1);
 	}
+	*offset = (int)(ip->y) % SQR;
 	return (point_distance(player->position, ip, rad));
 }
 
@@ -80,28 +82,30 @@ float				vertical_raycast(t_game *game, float rad, t_player *player)
 ** Calculates the shortest distance between a player
 ** and a wall in the chosen direction
 */
-float				raycast(t_game *game, float fov, t_wall_params *wp,
+double				raycast(t_game *game, double fov, t_wall_params *wp,
 							t_player *player)
 {
-	float			ver;
-	float			hor;
-	float			rad;
+	double			ver;
+	double			hor;
+	double			rad;
 
 	rad = ft_getrad(player->rad - fov);
 	hor = -1;
 	ver = -1;
 	if (rad != 0 && rad != PI && rad != 2 * PI)
-		hor = horizontal_raycast(game, rad, player);
+		hor = horizontal_raycast(game, rad, player, &wp->hoffset);
 	if (rad != PI / 2 && rad != 3 * PI / 2)
-		ver = vertical_raycast(game, rad, player);
+		ver = vertical_raycast(game, rad, player, &wp->voffset);
 	if ((hor == -1 || ver < hor) && ver != -1)
 	{
-		wp->color = (rad < PI / 2 || rad > 3 * PI / 2) ? 0x636363 : 0x1f1f1f;
+		wp->ratio = (rad < PI / 2 || rad > 3 * PI / 2) ? 2 : 4;
+		wp->hoffset = -1;
 		return (ft_abs(ver * ft_cos(fov)));
 	}
 	else if ((ver == -1 || ver > hor) && hor != -1)
 	{
-		wp->color = (rad < PI) ? 0xCCCCCC : 0x333333;
+		wp->ratio = (rad < PI) ? 1 : 3;
+		wp->voffset = -1;
 		return (ft_abs(hor * ft_cos(fov)));
 	}
 	return (0.0);
@@ -109,9 +113,19 @@ float				raycast(t_game *game, float fov, t_wall_params *wp,
 
 void				color_map(t_mlx_img *img, t_wall_params *wp)
 {
+	static t_mlx_img	*sprite = NULL;
+	double				resize;
+	int					offset;
+
+	offset = (wp->hoffset == -1) ? wp->voffset : wp->hoffset;
+	if (!sprite)
+		sprite = get_xpm_image(img->mlx_ptr, "tile1.xpm");
+	resize = wp->height / sprite->height;
 	if ((wp->y > (SIZE_Y / 2 - wp->height / 2))
 		&& (wp->y < SIZE_Y / 2 + wp->height / 2))
-		pixel_to_img(img, wp->x, wp->y, wp->color);
+		pixel_to_img(img, wp->x, wp->y,
+					get_pixel_at(sprite, (int)offset, (int)((wp->y
+					- (SIZE_Y / 2 - wp->height / 2)) / resize)));
 	else if (wp->y < SIZE_Y / 2)
 		pixel_to_img(img, wp->x, wp->y, 0xDA6339);
 	else if (wp->y > SIZE_Y / 2)
@@ -121,14 +135,16 @@ void				color_map(t_mlx_img *img, t_wall_params *wp)
 
 void				draw_walls(t_game *game, t_player *player, t_mlx_img *img)
 {
-	float			fov;
-	float			inc;
+	double			fov;
+	double			inc;
 	t_wall_params	*wp;
 
 	wp = (t_wall_params*)malloc(sizeof(t_wall_params));
 	if (!wp)
 		return ;
 	wp->x = 0;
+	wp->hoffset = -1;
+	wp->voffset = -1;
 	fov = -RAD(FOV / 2);
 	inc = RAD(FOV / SIZE_X);
 	while (wp->x < SIZE_X)

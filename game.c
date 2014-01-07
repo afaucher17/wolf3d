@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 18:59:09 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 14:21:50 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 15:18:44 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_player	*place_player(t_wall ***level)
 /*
 ** Checks if a point is out of bounds
 */
-char		outofbounds(t_wall ***level, float y, float x)
+char		outofbounds(t_wall ***level, double y, double x)
 {
 	return ((int)x >= get_tabwidth(level) || (int)x < 0
 			|| (int)y >= get_tabheight(level) || (int)y < 0);

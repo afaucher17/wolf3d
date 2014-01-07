@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/17 13:11:43 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 13:21:22 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 19:29:10 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,35 @@ t_mlx_img		*create_img(void *mlx_ptr, void *win_ptr, int width, int height)
 	mlx_img->size = size;
 	mlx_img->endian = endian;
 	return (mlx_img);
+}
+
+t_mlx_img		*get_xpm_image(void *mlx_ptr, char *filename)
+{
+	t_mlx_img	*mlx_img;
+
+	mlx_img = (t_mlx_img*)malloc(sizeof(t_mlx_img));
+	if (!mlx_img)
+		return (NULL);
+	mlx_img->mlx_ptr = mlx_ptr;
+	mlx_img->win_ptr = NULL;
+	mlx_img->img_ptr = mlx_xpm_file_to_image(mlx_ptr, filename,
+						&mlx_img->width, &mlx_img->height);
+	mlx_img->data = mlx_get_data_addr(mlx_img->img_ptr, &mlx_img->bpp,
+										&mlx_img->size, &mlx_img->endian);
+	return (mlx_img);
+}
+
+int				darken_color(int color, int bpp, int ratio)
+{
+	int			i;
+
+	i = 0;
+	while (i < bpp / 8)
+	{
+		((char*)&color)[i] = ((char*)&color)[i] / ratio;
+		i++;
+	}
+	return (color);
 }
 
 void			img_redraw(t_mlx_img *img)

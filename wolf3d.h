@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 15:56:49 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 14:29:00 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 19:29:54 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@
 # define KEY_ESC 65307
 
 # define FOV 60
-# define SQR 256
+# define SQR 64
 # define SIZE_X 1280
 # define SIZE_Y 800
 
 typedef struct	s_point
 {
-	float		x;
-	float		y;
-	float		z;
+	double		x;
+	double		y;
+	double		z;
 }				t_point;
 typedef struct	s_wall
 {
@@ -45,8 +45,8 @@ typedef struct	s_wall
 typedef struct	s_player
 {
 	t_point		*position;
-	float		rad;
-	float		zoom;
+	double		rad;
+	double		zoom;
 }				t_player;
 typedef struct	s_game
 {
@@ -70,20 +70,26 @@ typedef struct	s_wall_params
 {
 	int			x;
 	int			y;
-	float		height;
-	int			color;
+	double		height;
+	int			hoffset;
+	int			voffset;
+	int			ratio;
 }				t_wall_params;
 t_mlx_img		*create_img(void *mlx_ptr, void *img_ptr
 							, int height, int width);
-t_point			*point_new(float x, float y, float z);
+t_mlx_img		*get_xpm_image(void *mlx_ptr, char *filename);
+t_point			*point_new(double x, double y, double z);
 t_wall			*wall_new(int x, int y, int z, char type);
 t_game			*game_new(t_wall ***level, t_player *player);
-t_player		*player_new(float x, float y, float z, float rad);
+t_player		*player_new(double x, double y, double z, double rad);
 t_player		*place_player(t_wall ***level);
-void			move_to(t_wall ***level, t_point *point, float rad, float dist);
+void			move_to(t_wall ***level, t_point *point,
+						double rad, double dist);
 int				pixel_to_img(t_mlx_img *img, int x, int y, int color);
-float			point_distance(t_point *p1, t_point *p2, float rad);
-char			outofbounds(t_wall ***level, float y, float x);
+int				get_pixel_at(t_mlx_img *img, int x, int y);
+int				darken_color(int color, int bpp, int ratio);
+float			point_distance(t_point *p1, t_point *p2, double rad);
+char			outofbounds(t_wall ***level, double y, double x);
 int				draw_line(t_mlx_img *img, t_point *pt1, t_point *pt2);
 t_wall			***init_tab(t_list *list, int *max);
 int				get_tabwidth(t_wall ***tab);
