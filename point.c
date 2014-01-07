@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:33:32 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 08:39:41 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 09:38:47 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ float				point_distance(t_point *p1, t_point *p2, float rad)
 /*
 ** Moves the point towards a direction
 */
-void		move_to(t_point *point, float rad, float dist)
+void				move_to(t_point *point, float rad, float dist)
 {
 	point->x += ft_cos(rad) * dist;
 	point->y -= ft_sin(rad) * dist;
