@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:33:32 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 19:06:20 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 08:39:41 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,13 @@ int					pixel_to_img(t_mlx_img *img, int x, int y, int color)
 float				point_distance(t_point *p1, t_point *p2, float rad)
 {
 	return (ft_abs(ft_abs(p1->x - p2->x) / ft_cos(rad)));
+}
+
+/*
+** Moves the point towards a direction
+*/
+void		move_to(t_point *point, float rad, float dist)
+{
+	point->x += ft_cos(rad) * dist;
+	point->y -= ft_sin(rad) * dist;
 }

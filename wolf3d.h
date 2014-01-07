@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 15:56:49 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 18:53:16 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 09:32:01 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_player		*place_player(t_wall ***level);
 void			move_to(t_point *point, float rad, float dist);
 int				pixel_to_img(t_mlx_img *img, int x, int y, int color);
 float			point_distance(t_point *p1, t_point *p2, float rad);
-char			outofbounds(t_wall ***level, t_point *point);
+char			outofbounds(t_wall ***level, float y, float x);
 int				draw_line(t_mlx_img *img, t_point *pt1, t_point *pt2);
 t_wall			***init_tab(t_list *list, int *max);
 int				get_tabwidth(t_wall ***tab);

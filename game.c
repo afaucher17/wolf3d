@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 18:59:09 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 19:08:47 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 08:49:45 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,10 @@ t_player	*place_player(t_wall ***level)
 }
 
 /*
-** Moves the point towards a direction
-*/
-void		move_to(t_point *point, float rad, float dist)
-{
-	point->x += ft_cos(rad) * dist;
-	point->y -= ft_sin(rad) * dist;
-}
-
-/*
 ** Checks if a point is out of bounds
 */
-char		outofbounds(t_wall ***level, t_point *point)
+char		outofbounds(t_wall ***level, float y, float x)
 {
-	return ((int)(point->x / SQR) >= get_tabwidth(level)
-			|| (int)(point->x / SQR) < 0
-			|| (int)(point->y / SQR) >= get_tabheight(level)
-			|| (int)(point->y / SQR) < 0);
+	return ((int)x >= get_tabwidth(level) || (int)x < 0
+			|| (int)y >= get_tabheight(level) || (int)y < 0);
 }

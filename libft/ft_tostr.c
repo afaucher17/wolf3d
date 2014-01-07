@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tostr.c                                     :+:      :+:    :+:   */
+/*   ft_tostr.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2013/11/30 19:14:30 by afaucher          #+#    #+#             */
-/*   Updated: 2013/12/01 16:25:43 by afaucher         ###   ########.fr       */
+/*   Created: 2014/01/07 09:32:31 by afaucher          #+#    #+#             */
+/*   Updated: 2014/01/07 09:32:34 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 /*
- * Converts a char to a string
- */
+** Converts a char to a string
+*/
 char	*ft_tostr(char c)
 {
 	char	*new;

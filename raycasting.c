@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 20:31:02 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 19:03:55 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 09:11:13 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,31 @@
 float				horizontal_raycast(t_game *game, float rad,
 										t_player *player)
 {
-	t_point			*inter;
+	t_point			*ip;
 	float			px;
 	float			py;
 	float			xa;
 	float			ya;
 
-	inter = point_new(0, 0, 0);
+	ip = point_new(0, 0, 0);
 	px = player->position->x;
 	py = player->position->y;
-	inter->y = (rad < PI) ? (int)(py / SQR) * SQR - 1
-							: (int)(py / SQR) * SQR + SQR;
-	inter->x = px + ((py - inter->y) / ft_tan(rad));
-	xa = (rad > PI / 2 && rad < 3 * PI / 2)
-		? -ft_abs(SQR / ft_tan(rad)) : ft_abs(SQR / ft_tan(rad));
-	ya = (rad < PI) ? -SQR : SQR;
-	if (outofbounds(game->level, inter))
+	ip->y = AUP(rad) ? (int)(py / SQR) * SQR - 1 : (int)(py / SQR) * SQR + SQR;
+	ip->x = px + ((py - ip->y) / ft_tan(rad));
+	xa = ALEFT(rad) ? -ft_abs(SQR / ft_tan(rad)) : ft_abs(SQR / ft_tan(rad));
+	ya = AUP(rad) ? -SQR : SQR;
+	if (outofbounds(game->level, ip->y / SQR, (ip->x + ALEFT(rad)) / SQR))
 		return (-1);
-	while (!game->level[(int)(inter->y / SQR)][(int)(inter->x / SQR)]->type)
+	while (!game->level[(int)(ip->y / SQR)]
+			[(int)((ip->x + ALEFT(rad)) / SQR)]->type)
 	{
-		inter->x += xa;
-		inter->y += ya;
-		if (outofbounds(game->level, inter))
+		ip->x += xa;
+		ip->y += ya;
+		if (outofbounds(game->level, ip->y / SQR
+					, (ip->x + ALEFT(rad)) / SQR))
 			return (-1);
 	}
-	return (point_distance(player->position, inter, rad));
+	return (point_distance(player->position, ip, rad));
 }
 
 /*
@@ -50,31 +50,30 @@ float				horizontal_raycast(t_game *game, float rad,
 */
 float				vertical_raycast(t_game *game, float rad, t_player *player)
 {
-	t_point			*inter;
+	t_point			*ip;
 	float			px;
 	float			py;
 	float			xa;
 	float			ya;
 
-	inter = point_new(0, 0, 0);
+	ip = point_new(0, 0, 0);
 	px = player->position->x;
 	py = player->position->y;
-	inter->x = (rad < PI / 2 || rad > (3 * PI / 2))
-				? (int)(px / SQR) * SQR + SQR
+	ip->x = ARIGHT(rad) ? (int)(px / SQR) * SQR + SQR
 				: (int)(px / SQR) * SQR - 1;
-	inter->y = py + ((px - inter->x) * ft_tan(rad));
-	xa = (rad < (PI / 2) || rad > (3 * PI / 2)) ? SQR : -SQR;
-	ya = (rad < PI) ? -ft_abs(SQR * ft_tan(rad)) : ft_abs(SQR * ft_tan(rad));
-	if (outofbounds(game->level, inter))
+	ip->y = py + ((px - ip->x) * ft_tan(rad)) + AUP(rad);
+	xa = ARIGHT(rad) ? SQR : -SQR;
+	ya = AUP(rad) ? -ft_abs(SQR * ft_tan(rad)) : ft_abs(SQR * ft_tan(rad));
+	if (outofbounds(game->level, ip->y / SQR, ip->x / SQR))
 		return (-1);
-	while (!game->level[(int)(inter->y / SQR)][(int)(inter->x / SQR)]->type)
+	while (!game->level[(int)(ip->y / SQR)][(int)(ip->x / SQR)]->type)
 	{
-		inter->x += xa;
-		inter->y += ya;
-		if (outofbounds(game->level, inter))
+		ip->x += xa;
+		ip->y += ya;
+		if (outofbounds(game->level, ip->y / SQR, ip->x / SQR))
 			return (-1);
 	}
-	return (point_distance(player->position, inter, rad));
+	return (point_distance(player->position, ip, rad));
 }
 
 /*
@@ -114,9 +113,9 @@ void				color_map(t_mlx_img *img, t_wall_params *wp)
 		&& (wp->y < SIZE_Y / 2 + wp->height / 2))
 		pixel_to_img(img, wp->x, wp->y, wp->color);
 	else if (wp->y < SIZE_Y / 2)
-		pixel_to_img(img, wp->x, wp->y, 0x99CCFF);
+		pixel_to_img(img, wp->x, wp->y, 0xDA6339);
 	else if (wp->y > SIZE_Y / 2)
-		pixel_to_img(img, wp->x, wp->y, 0x4A7400);
+		pixel_to_img(img, wp->x, wp->y, 0x604904);
 }
 
 
@@ -134,7 +133,7 @@ void				draw_walls(t_game *game, t_player *player, t_mlx_img *img)
 	inc = RAD(FOV / SIZE_X);
 	while (wp->x < SIZE_X)
 	{
-		wp->height = 2 * (player->zoom * SQR) / raycast(game,
+		wp->height = 4 * (player->zoom * SQR) / raycast(game,
 				ft_getrad(fov), wp, player);
 		wp->y = 0;
 		while (wp->y < SIZE_Y)
