@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:33:32 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 09:38:47 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 14:30:31 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,19 @@ float				point_distance(t_point *p1, t_point *p2, float rad)
 /*
 ** Moves the point towards a direction
 */
-void				move_to(t_point *point, float rad, float dist)
+void				move_to(t_wall ***level, t_point *point,
+							float rad, float dist)
 {
-	point->x += ft_cos(rad) * dist;
-	point->y -= ft_sin(rad) * dist;
+	float			x;
+	float			y;
+
+	x = point->x;
+	y = point->y;
+	x += ft_cos(rad) * dist;
+	y -= ft_sin(rad) * dist;
+	if (!outofbounds(level, (int)(y / SQR), (int)(x / SQR))
+		&& level[(int)(y / SQR)][(int)(x / SQR)]->type)
+			return ;
+	point->x = x;
+	point->y = y;
 }

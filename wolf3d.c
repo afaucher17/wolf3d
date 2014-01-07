@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 15:54:06 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/06 18:56:24 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 14:56:35 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,22 @@ int				expose_hook(t_mlx_img *img)
 
 int				key_hook(int keycode, t_mlx_img *img)
 {
+	t_player	*player;
+
+	player = img->game->player;
 	if (keycode == KEY_ESC)
 		exit(0);
 	if (keycode == KEY_RIGHT)
-		img->game->player->rad -= 0.1;
+		player->rad -= 0.25;
 	if (keycode == KEY_LEFT)
-		img->game->player->rad += 0.1;
+		player->rad += 0.25;
 	if (keycode == KEY_UP)
-		move_to(img->game->player->position, img->game->player->rad, 60);
+		move_to(img->game->level, player->position, player->rad, 90);
 	if (keycode == KEY_DOWN)
-		move_to(img->game->player->position, img->game->player->rad, -60);
-	img->game->player->rad = ft_getrad(img->game->player->rad);
+		move_to(img->game->level, player->position, player->rad, -90);
+	player->rad = ft_getrad(player->rad);
 	if (keycode)
 		img_redraw(img);
-	img = NULL;
 	return (0);
 }
 
@@ -60,7 +62,8 @@ void			wolf3d(char *str, int fd)
 	mlx_img = create_img(mlx_ptr, win_ptr, SIZE_X, SIZE_Y);
 	mlx_img->game = game_new(tab, place_player(tab));
 	close (fd);
-	mlx_key_hook(win_ptr, key_hook, mlx_img);
+	mlx_hook(win_ptr, 2, (1L << 0), key_hook, mlx_img);
+	mlx_do_key_autorepeaton(mlx_ptr);
 	mlx_expose_hook(win_ptr, expose_hook, mlx_img);
 	mlx_loop(mlx_ptr);
 }

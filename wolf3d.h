@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 15:56:49 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 09:32:01 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/07 14:29:00 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_wall			*wall_new(int x, int y, int z, char type);
 t_game			*game_new(t_wall ***level, t_player *player);
 t_player		*player_new(float x, float y, float z, float rad);
 t_player		*place_player(t_wall ***level);
-void			move_to(t_point *point, float rad, float dist);
+void			move_to(t_wall ***level, t_point *point, float rad, float dist);
 int				pixel_to_img(t_mlx_img *img, int x, int y, int color);
 float			point_distance(t_point *p1, t_point *p2, float rad);
 char			outofbounds(t_wall ***level, float y, float x);
