@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   maths2.c                                           :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/01/04 15:33:32 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/09 13:06:04 by afaucher         ###   ########.fr       */
+/*   Created: 2014/01/09 12:46:05 by afaucher          #+#    #+#             */
+/*   Updated: 2014/01/09 13:05:26 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "maths.h"
+#include "wolf3d.h"
 
-double		ft_abs(double nb)
+int				main(int argc, char **argv)
 {
-	float	abs;
+	int			fd;
 
-	abs = (nb > 0) ? nb : -nb;
-	return (abs);
-}
-
-double		ft_getrad(double rad)
-{
-	if (rad < 0)
-		return (ft_getrad(rad + 2 * PI));
-	if (rad > 2 * PI)
-		return (ft_getrad(rad - 2 * PI));
-	return (rad);
+	if (argc < 2)
+		ft_putendl_fd("usage: ./wolf3d file1", 2);
+	else
+	{
+		fd = open(argv[1], O_RDONLY);
+		if (fd == -1)
+		{
+			perror(ft_strjoin("wolf3d: ", argv[1]));
+			return (1);
+		}
+		wolf3d(argv[1], fd);
+	}
+	return (0);
 }

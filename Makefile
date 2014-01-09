@@ -6,13 +6,14 @@
 #    By: afaucher <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2013/11/20 14:23:30 by afaucher          #+#    #+#              #
-#    Updated: 2014/01/05 14:08:23 by afaucher         ###   ########.fr        #
+#    Updated: 2014/01/09 13:10:57 by afaucher         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = /usr/bin/gcc
 
 SOURCES = wolf3d.c image.c tab.c point.c wall.c game.c player.c raycasting.c \
+		main.c draw_image.c \
 
 OBJS = $(SOURCES:.c=.o)
 

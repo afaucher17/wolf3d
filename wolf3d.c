@@ -5,84 +5,84 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/01/03 15:54:06 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 15:23:22 by afaucher         ###   ########.fr       */
+/*   Created: 2014/01/09 12:43:19 by afaucher          #+#    #+#             */
+/*   Updated: 2014/01/09 12:49:30 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-void			draw_image(t_mlx_img *img)
-{
-	if (!img || !img->game || !img->game->player)
-		return ;
-	draw_walls(img->game, img->game->player, img);
-}
-
-int				expose_hook(t_mlx_img *img)
+static int		expose_hook(t_mlx_img *img)
 {
 	draw_image(img);
 	mlx_put_image_to_window(img->mlx_ptr, img->win_ptr, img->img_ptr, 0, 0);
 	return (1);
 }
 
-int				key_hook(int keycode, t_mlx_img *img)
+static int		keypress_hook(int keycode, t_env *env)
+{
+	env->key_esc = (keycode == KEY_ESC) ? 1 : env->key_esc;
+	env->key_right = (keycode == KEY_RIGHT) ? 1 : env->key_right;
+	env->key_left = (keycode == KEY_LEFT) ? 1 : env->key_left;
+	env->key_up = (keycode == KEY_UP) ? 1 : env->key_up;
+	env->key_down = (keycode == KEY_DOWN) ? 1 : env->key_down;
+	return (0);
+}
+
+static int		keyrelease_hook(int keycode, t_env *env)
+{
+	env->key_esc = (keycode == KEY_ESC) ? 0 : env->key_esc;
+	env->key_right = (keycode == KEY_RIGHT) ? 0 : env->key_right;
+	env->key_left = (keycode == KEY_LEFT) ? 0 : env->key_left;
+	env->key_up = (keycode == KEY_UP) ? 0 : env->key_up;
+	env->key_down = (keycode == KEY_DOWN) ? 0 : env->key_down;
+	return (0);
+}
+
+static int		loop_hook(t_env *env)
 {
 	t_player	*player;
 
-	player = img->game->player;
-	if (keycode == KEY_ESC)
-		exit(0);
-	if (keycode == KEY_RIGHT)
-		player->rad -= 0.15;
-	if (keycode == KEY_LEFT)
-		player->rad += 0.15;
-	if (keycode == KEY_UP)
-		move_to(img->game->level, player->position, player->rad, 90);
-	if (keycode == KEY_DOWN)
-		move_to(img->game->level, player->position, player->rad, -90);
+	player = env->img->game->player;
+	if (env->key_esc)
+		exit(EXIT_SUCCESS);
+	player->rad += (env->key_right) ? -0.1 : 0;
+	player->rad += (env->key_left) ? 0.1 : 0;
+	if (env->key_up)
+		move_to(env->img->game->level, player->position, player->rad, 60);
+	if (env->key_down)
+		move_to(env->img->game->level, player->position, player->rad, -60);
 	player->rad = ft_getrad(player->rad);
-	if (keycode)
-		img_redraw(img);
+	img_redraw(env->img);
 	return (0);
 }
 
 void			wolf3d(char *str, int fd)
 {
 	void		*mlx_ptr;
-	t_mlx_img	*mlx_img;
 	void		*win_ptr;
 	t_wall		***tab;
+	t_env		*env;
 	int			max;
 
-	max = 0;
+	env = (t_env*)malloc(sizeof(t_env));
+	if (!env)
+		return ;
 	mlx_ptr = mlx_init();
 	tab = init_tab(init_list(str, fd, &max), &max);
 	win_ptr = mlx_new_window(mlx_ptr, SIZE_X, SIZE_Y, "WOLF3D");
-	mlx_img = create_img(mlx_ptr, win_ptr, SIZE_X, SIZE_Y);
-	mlx_img->game = game_new(tab, place_player(tab));
+	env->img = create_img(mlx_ptr, win_ptr, SIZE_X, SIZE_Y);
+	env->img->game = game_new(tab, place_player(tab));
 	close (fd);
-	mlx_hook(win_ptr, 2, (1L << 0), key_hook, mlx_img);
+	env->key_esc = 0;
+	env->key_right = 0;
+	env->key_left = 0;
+	env->key_up = 0;
+	env->key_down = 0;
+	mlx_hook(win_ptr, 2, (1L << 0), keypress_hook, env);
+	mlx_key_hook(win_ptr, keyrelease_hook, env);
 	mlx_do_key_autorepeaton(mlx_ptr);
-	mlx_expose_hook(win_ptr, expose_hook, mlx_img);
+	mlx_loop_hook(mlx_ptr, loop_hook, env);
+	mlx_expose_hook(win_ptr, expose_hook, env->img);
 	mlx_loop(mlx_ptr);
-}
-
-int				main(int argc, char **argv)
-{
-	int			fd;
-
-	if (argc < 2)
-		ft_putendl_fd("usage: ./wolf3d file1", 2);
-	else
-	{
-		fd = open(argv[1], O_RDONLY);
-		if (fd == -1)
-		{
-			perror(ft_strjoin("wolf3d: ", argv[1]));
-			return (1);
-		}
-		wolf3d(argv[1], fd);
-	}
-	return (0);
 }

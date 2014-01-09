@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 15:56:49 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 19:29:54 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/09 13:12:56 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define KEY_ESC 65307
 
 # define FOV 60
-# define SQR 64
+# define SQR 256
 # define SIZE_X 1280
 # define SIZE_Y 800
 
@@ -66,6 +66,15 @@ typedef struct	s_mlx_img
 	int			size;
 	int			endian;
 }				t_mlx_img;
+typedef struct	s_env
+{
+	t_mlx_img	*img;
+	char		key_esc;
+	char		key_right;
+	char		key_left;
+	char		key_up;
+	char		key_down;
+}				t_env;
 typedef struct	s_wall_params
 {
 	int			x;
@@ -73,8 +82,9 @@ typedef struct	s_wall_params
 	double		height;
 	int			hoffset;
 	int			voffset;
-	int			ratio;
+	char		ratio;
 }				t_wall_params;
+void			wolf3d(char *str, int fd);
 t_mlx_img		*create_img(void *mlx_ptr, void *img_ptr
 							, int height, int width);
 t_mlx_img		*get_xpm_image(void *mlx_ptr, char *filename);
@@ -86,8 +96,8 @@ t_player		*place_player(t_wall ***level);
 void			move_to(t_wall ***level, t_point *point,
 						double rad, double dist);
 int				pixel_to_img(t_mlx_img *img, int x, int y, int color);
-int				get_pixel_at(t_mlx_img *img, int x, int y);
-int				darken_color(int color, int bpp, int ratio);
+size_t			get_pixel_at(t_mlx_img *img, int x, int y);
+int				darken_color(int color, int bpp, char ratio);
 float			point_distance(t_point *p1, t_point *p2, double rad);
 char			outofbounds(t_wall ***level, double y, double x);
 int				draw_line(t_mlx_img *img, t_point *pt1, t_point *pt2);
@@ -96,6 +106,8 @@ int				get_tabwidth(t_wall ***tab);
 int				get_tabheight(t_wall ***tab);
 t_list			*init_list(char *argv, int fd, int *max);
 void			draw_walls(t_game *game, t_player *player, t_mlx_img *img);
+double			raycast(t_game *game, double fov,
+						t_wall_params *wp, t_player *player);
 void			img_redraw(t_mlx_img *img);
 void			draw_image(t_mlx_img *img);
 #endif /* WOLF3D_H */

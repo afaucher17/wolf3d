@@ -5,24 +5,23 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2014/01/03 20:31:02 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 19:32:24 by afaucher         ###   ########.fr       */
+/*   Created: 2014/01/09 13:10:11 by afaucher          #+#    #+#             */
+/*   Updated: 2014/01/09 13:21:43 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
-
 /*
 ** Makes an horizontal calculation of the distance between the player and a wall
 */
-double				horizontal_raycast(t_game *game, double rad,
+static double			horizontal_raycast(t_game *game, double rad,
 										t_player *player, int *offset)
 {
-	t_point			*ip;
-	double			px;
-	double			py;
-	double			xa;
-	double			ya;
+	t_point				*ip;
+	double				px;
+	double				py;
+	double				xa;
+	double				ya;
 
 	ip = point_new(0, 0, 0);
 	px = player->position->x;
@@ -48,14 +47,14 @@ double				horizontal_raycast(t_game *game, double rad,
 /*
 ** Makes a vertical calculation of the distance between the player and a wall
 */
-double				vertical_raycast(t_game *game, double rad,
+static double			vertical_raycast(t_game *game, double rad,
 									t_player *player, int *offset)
 {
-	t_point			*ip;
-	double			px;
-	double			py;
-	double			xa;
-	double			ya;
+	t_point				*ip;
+	double				px;
+	double				py;
+	double				xa;
+	double				ya;
 
 	ip = point_new(0, 0, 0);
 	px = player->position->x;
@@ -82,12 +81,12 @@ double				vertical_raycast(t_game *game, double rad,
 ** Calculates the shortest distance between a player
 ** and a wall in the chosen direction
 */
-double				raycast(t_game *game, double fov, t_wall_params *wp,
+double			raycast(t_game *game, double fov, t_wall_params *wp,
 							t_player *player)
 {
-	double			ver;
-	double			hor;
-	double			rad;
+	double				ver;
+	double				hor;
+	double				rad;
 
 	rad = ft_getrad(player->rad - fov);
 	hor = -1;
@@ -98,66 +97,15 @@ double				raycast(t_game *game, double fov, t_wall_params *wp,
 		ver = vertical_raycast(game, rad, player, &wp->voffset);
 	if ((hor == -1 || ver < hor) && ver != -1)
 	{
-		wp->ratio = (rad < PI / 2 || rad > 3 * PI / 2) ? 2 : 4;
+		wp->ratio = (rad < PI / 2 || rad > 3 * PI / 2) ? 0x05 : 0x20;
 		wp->hoffset = -1;
 		return (ft_abs(ver * ft_cos(fov)));
 	}
 	else if ((ver == -1 || ver > hor) && hor != -1)
 	{
-		wp->ratio = (rad < PI) ? 1 : 3;
+		wp->ratio = (rad < PI) ? -0x25 : 0x70;
 		wp->voffset = -1;
 		return (ft_abs(hor * ft_cos(fov)));
 	}
 	return (0.0);
-}
-
-void				color_map(t_mlx_img *img, t_wall_params *wp)
-{
-	static t_mlx_img	*sprite = NULL;
-	double				resize;
-	int					offset;
-
-	offset = (wp->hoffset == -1) ? wp->voffset : wp->hoffset;
-	if (!sprite)
-		sprite = get_xpm_image(img->mlx_ptr, "tile1.xpm");
-	resize = wp->height / sprite->height;
-	if ((wp->y > (SIZE_Y / 2 - wp->height / 2))
-		&& (wp->y < SIZE_Y / 2 + wp->height / 2))
-		pixel_to_img(img, wp->x, wp->y,
-					get_pixel_at(sprite, (int)offset, (int)((wp->y
-					- (SIZE_Y / 2 - wp->height / 2)) / resize)));
-	else if (wp->y < SIZE_Y / 2)
-		pixel_to_img(img, wp->x, wp->y, 0xDA6339);
-	else if (wp->y > SIZE_Y / 2)
-		pixel_to_img(img, wp->x, wp->y, 0x604904);
-}
-
-
-void				draw_walls(t_game *game, t_player *player, t_mlx_img *img)
-{
-	double			fov;
-	double			inc;
-	t_wall_params	*wp;
-
-	wp = (t_wall_params*)malloc(sizeof(t_wall_params));
-	if (!wp)
-		return ;
-	wp->x = 0;
-	wp->hoffset = -1;
-	wp->voffset = -1;
-	fov = -RAD(FOV / 2);
-	inc = RAD(FOV / SIZE_X);
-	while (wp->x < SIZE_X)
-	{
-		wp->height = 4 * (player->zoom * SQR) / raycast(game,
-				ft_getrad(fov), wp, player);
-		wp->y = 0;
-		while (wp->y < SIZE_Y)
-		{
-			color_map(img, wp);
-			wp->y++;
-		}
-		fov += inc;
-		wp->x++;
-	}
 }

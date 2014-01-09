@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:33:32 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 19:19:10 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/08 15:55:20 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int					pixel_to_img(t_mlx_img *img, int x, int y, int color)
 	return (0);
 }
 
-int					get_pixel_at(t_mlx_img *img, int x, int y)
+size_t				get_pixel_at(t_mlx_img *img, int x, int y)
 {
 	long			index;
 	int				i;
@@ -64,7 +64,7 @@ int					get_pixel_at(t_mlx_img *img, int x, int y)
 		((char*)&color)[i] = img->data[index + i];
 		i++;
 	}
-	return (color);
+	return (mlx_get_color_value(img->mlx_ptr, color));
 }
 
 /*

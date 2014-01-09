@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/17 13:11:43 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 19:29:10 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/08 16:13:42 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,20 @@ t_mlx_img		*get_xpm_image(void *mlx_ptr, char *filename)
 	return (mlx_img);
 }
 
-int				darken_color(int color, int bpp, int ratio)
+int				darken_color(int color, int bpp, char ratio)
 {
 	int			i;
+	int			hex;
 
 	i = 0;
 	while (i < bpp / 8)
 	{
-		((char*)&color)[i] = ((char*)&color)[i] / ratio;
+		hex = ((char*)&color)[i];
+		hex = (hex > 0) ? hex : 0xFF + hex;
+		hex = hex - ratio;
+		if (hex < 0)
+			hex = 0;
+		((char*)&color)[i] = hex;
 		i++;
 	}
 	return (color);
