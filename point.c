@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:33:32 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/08 15:55:20 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/14 07:53:18 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ size_t				get_pixel_at(t_mlx_img *img, int x, int y)
 		((char*)&color)[i] = img->data[index + i];
 		i++;
 	}
-	return (mlx_get_color_value(img->mlx_ptr, color));
+	return (color);
 }
 
 /*
@@ -72,7 +72,11 @@ size_t				get_pixel_at(t_mlx_img *img, int x, int y)
 */
 float				point_distance(t_point *p1, t_point *p2, double rad)
 {
-	return (ft_abs(ft_abs(p1->x - p2->x) / ft_cos(rad)));
+	double			dist;
+
+	dist = ft_abs(ft_abs(p1->x - p2->x) / cos(rad));
+	free(p2);
+	return (dist);
 }
 
 /*
@@ -81,13 +85,13 @@ float				point_distance(t_point *p1, t_point *p2, double rad)
 void				move_to(t_wall ***level, t_point *point,
 							double rad, double dist)
 {
-	float			x;
-	float			y;
+	double			x;
+	double			y;
 
 	x = point->x;
 	y = point->y;
-	x += ft_cos(rad) * dist;
-	y -= ft_sin(rad) * dist;
+	x += cos(rad) * dist;
+	y -= sin(rad) * dist;
 	if (!outofbounds(level, (int)(y / SQR), (int)(x / SQR))
 		&& level[(int)(y / SQR)][(int)(x / SQR)]->type)
 			return ;

@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/09 12:43:19 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/09 12:49:30 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/14 08:27:55 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ static int		loop_hook(t_env *env)
 	player = env->img->game->player;
 	if (env->key_esc)
 		exit(EXIT_SUCCESS);
-	player->rad += (env->key_right) ? -0.1 : 0;
-	player->rad += (env->key_left) ? 0.1 : 0;
+	player->rad += (env->key_right) ? -PI / 20 : 0;
+	player->rad += (env->key_left) ? PI / 20 : 0;
 	if (env->key_up)
-		move_to(env->img->game->level, player->position, player->rad, 60);
+		move_to(env->img->game->level, player->position, player->rad, SQR / 10);
 	if (env->key_down)
-		move_to(env->img->game->level, player->position, player->rad, -60);
+		move_to(env->img->game->level, player->position,
+				player->rad, -(SQR / 10));
 	player->rad = ft_getrad(player->rad);
 	img_redraw(env->img);
 	return (0);
@@ -81,7 +82,6 @@ void			wolf3d(char *str, int fd)
 	env->key_down = 0;
 	mlx_hook(win_ptr, 2, (1L << 0), keypress_hook, env);
 	mlx_key_hook(win_ptr, keyrelease_hook, env);
-	mlx_do_key_autorepeaton(mlx_ptr);
 	mlx_loop_hook(mlx_ptr, loop_hook, env);
 	mlx_expose_hook(win_ptr, expose_hook, env->img);
 	mlx_loop(mlx_ptr);

@@ -6,19 +6,19 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:41:06 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/07 08:40:05 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/13 19:00:59 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-t_list		*init_list(char *argv, int fd, int *max)
+t_list			*init_list(char *argv, int fd, int *max)
 {
-	t_list	*list;
-	char	**tab;
-	char	*buf;
-	int		i;
-	int		res;
+	t_list		*list;
+	char		**tab;
+	char		*buf;
+	int			i;
+	int			res;
 
 	list = NULL;
 	buf = NULL;
@@ -41,11 +41,11 @@ t_list		*init_list(char *argv, int fd, int *max)
 	return (list);
 }
 
-t_wall		***init_emptytab(int lines, int columns)
+static t_wall	***init_emptytab(int lines, int columns)
 {
-	t_wall	***tab;
-	int		x;
-	int		y;
+	t_wall		***tab;
+	int			x;
+	int			y;
 
 	tab = (t_wall***)malloc(sizeof(t_wall**) * (lines + 3));
 	x = 0;
@@ -65,9 +65,9 @@ t_wall		***init_emptytab(int lines, int columns)
 	return (tab);
 }
 
-int			get_tabwidth(t_wall ***wall)
+int				get_tabwidth(t_wall ***wall)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	while (wall[0][i])
@@ -75,9 +75,9 @@ int			get_tabwidth(t_wall ***wall)
 	return (i);
 }
 
-int			get_tabheight(t_wall ***wall)
+int				get_tabheight(t_wall ***wall)
 {
-	int		i;
+	int			i;
 
 	i = 0;
 	while (wall[i])
@@ -85,12 +85,12 @@ int			get_tabheight(t_wall ***wall)
 	return (i);
 }
 
-t_wall		***init_tab(t_list *list, int *max)
+t_wall			***init_tab(t_list *list, int *max)
 {
-	t_wall	***tab;
-	char	**strtab;
-	int		x;
-	int		y;
+	t_wall		***tab;
+	char		**strtab;
+	int			x;
+	int			y;
 
 	tab = init_emptytab(ft_lstlen(list), *max);
 	y = 1;
