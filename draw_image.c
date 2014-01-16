@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/09 13:04:59 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/14 11:17:15 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/15 21:27:13 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,22 @@ static void				color_map(t_mlx_img *img, t_wall_params *wp, double fov)
 
 	offset = (wp->side == 0) ? wp->voffset : wp->hoffset;
 	if (!wall)
-		wall = get_xpm_image(img->mlx_ptr, "tile1.xpm");
+		wall = get_xpm_image(img->mlx_ptr, "taric.xpm");
 	if (!floor)
-		floor = get_xpm_image(img->mlx_ptr, "tile1.xpm");
+		floor = get_xpm_image(img->mlx_ptr, "pink.xpm");
 	resize = wp->height / wall->height;
-	if ((wp->y > (SIZE_Y / 2 - wp->height / 2))
-		&& (wp->y < SIZE_Y / 2 + wp->height / 2))
+	if ((wp->y >= (SIZE_Y / 2 - wp->height / 2))
+		&& (wp->y <= SIZE_Y / 2 + wp->height / 2))
 		pixel_to_img(img, wp->x, wp->y,
-					darken_color(get_pixel_at(wall, (int)offset, (int)((wp->y
-					- (SIZE_Y / 2 - wp->height / 2)) / resize)),
-					wall->bpp, wp->ratio));
+					darken_color(get_pixel_at(wall, offset, (int)((wp->y
+					- (SIZE_Y / 2 - wp->height / 2)) / resize))
+					, wall->bpp, wp->ratio));
 	else if (wp->y > SIZE_Y / 2)
-		pixel_to_img(img, wp->x, wp->y, floor_raycast(img->game->player, wp, fov, floor));
+		pixel_to_img(img, wp->x, wp->y, floor_raycast(img->game->player, wp
+					, fov, floor));
 	else if (wp->y < SIZE_Y / 2)
-		pixel_to_img(img, wp->x, wp->y, ceiling_raycast(img->game->player, wp, fov, floor));
+		pixel_to_img(img, wp->x, wp->y, ceiling_raycast(img->game->player, wp
+					, fov, floor));
 }
 
 

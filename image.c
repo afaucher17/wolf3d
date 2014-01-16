@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/17 13:11:43 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/13 19:33:38 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/15 21:43:34 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,12 @@ int				darken_color(int color, int bpp, char ratio)
 	{
 		hex = ((char*)&color)[i];
 		hex = (hex > 0) ? hex : 0xFF + hex;
-		hex = hex - ratio;
-		if (hex < 0)
+		if (hex - ratio < 0)
 			hex = 0;
+		else if (hex - ratio > 0xFF)
+			hex = 0xFF;
+		else
+			hex = hex - ratio;
 		((char*)&color)[i] = hex;
 		i++;
 	}
