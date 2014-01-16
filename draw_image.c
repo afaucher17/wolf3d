@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/09 13:04:59 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/15 21:27:13 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/16 10:40:04 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ static void				color_map(t_mlx_img *img, t_wall_params *wp, double fov)
 
 	offset = (wp->side == 0) ? wp->voffset : wp->hoffset;
 	if (!wall)
-		wall = get_xpm_image(img->mlx_ptr, "taric.xpm");
+		wall = get_xpm_image(img->mlx_ptr, "tiles/taric.xpm");
 	if (!floor)
-		floor = get_xpm_image(img->mlx_ptr, "pink.xpm");
+		floor = get_xpm_image(img->mlx_ptr, "tiles/pink.xpm");
 	resize = wp->height / wall->height;
 	if ((wp->y >= (SIZE_Y / 2 - wp->height / 2))
 		&& (wp->y <= SIZE_Y / 2 + wp->height / 2))
