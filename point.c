@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:33:32 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/14 13:14:49 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/16 10:53:52 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,11 @@ float				point_distance(t_point *p1, t_point *p2, double rad)
 {
 	double			dist;
 
-	dist = ft_abs(ft_abs(p1->x - p2->x) / cos(rad));
+	if ((rad > PI / 4 && rad < 3 * PI / 4)
+		|| (rad > 5 * PI / 4 && rad < 7 * PI / 4))
+		dist = ft_abs(ft_abs(p1->y - p2->y) / sin(rad));
+	else
+		dist = ft_abs(ft_abs(p1->x - p2->x) / cos(rad));
 	free(p2);
 	return (dist);
 }
