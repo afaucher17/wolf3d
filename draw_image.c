@@ -6,12 +6,15 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/09 13:04:59 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/16 10:40:04 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/19 17:55:25 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
+/*
+** Color the map according to the walls.
+*/
 static void				color_map(t_mlx_img *img, t_wall_params *wp, double fov)
 {
 	static t_mlx_img	*wall = NULL;
@@ -39,7 +42,9 @@ static void				color_map(t_mlx_img *img, t_wall_params *wp, double fov)
 					, fov, floor));
 }
 
-
+/*
+** Draw the walls.
+*/
 void					draw_walls(t_game *game, t_player *player
 									, t_mlx_img *img)
 {
@@ -69,6 +74,9 @@ void					draw_walls(t_game *game, t_player *player
 	free(wp);
 }
 
+/*
+** Draws the image
+*/
 void					draw_image(t_mlx_img *img)
 {
 	if (!img || !img->game || !img->game->player)

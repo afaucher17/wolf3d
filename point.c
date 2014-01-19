@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:33:32 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/16 10:53:52 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/19 17:58:37 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ int					pixel_to_img(t_mlx_img *img, int x, int y, int color)
 	return (0);
 }
 
+/*
+** Gets the pixel color of an image at a position
+*/
 size_t				get_pixel_at(t_mlx_img *img, int x, int y)
 {
 	long			index;

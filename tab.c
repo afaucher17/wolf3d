@@ -6,12 +6,15 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:41:06 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/13 19:00:59 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/19 17:59:39 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
+/*
+** Creates the list from the file
+*/
 t_list			*init_list(char *argv, int fd, int *max)
 {
 	t_list		*list;

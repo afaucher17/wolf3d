@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/17 13:11:43 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/15 21:43:34 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/19 17:56:59 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,9 @@ t_mlx_img		*create_img(void *mlx_ptr, void *win_ptr, int width, int height)
 	return (mlx_img);
 }
 
+/*
+** Create an image from an xpm file.
+*/
 t_mlx_img		*get_xpm_image(void *mlx_ptr, char *filename)
 {
 	t_mlx_img	*mlx_img;
@@ -53,6 +56,9 @@ t_mlx_img		*get_xpm_image(void *mlx_ptr, char *filename)
 	return (mlx_img);
 }
 
+/*
+** Darken a color according to a ratio.
+*/
 int				darken_color(int color, int bpp, char ratio)
 {
 	int			i;
@@ -75,6 +81,9 @@ int				darken_color(int color, int bpp, char ratio)
 	return (color);
 }
 
+/*
+** Redraws an image
+*/
 void			img_redraw(t_mlx_img *img)
 {
 	mlx_destroy_image(img->mlx_ptr, img->img_ptr);

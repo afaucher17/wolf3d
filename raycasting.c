@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/09 13:10:11 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/16 10:48:19 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/19 17:59:16 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,9 @@ double			raycast(t_game *game, double fov, t_wall_params *wp,
 	}
 }
 
+/*
+** Makes the floor raycast
+*/
 size_t					floor_raycast(t_player	*player, t_wall_params *wp,
 										double fov, t_mlx_img *floor)
 {
@@ -125,8 +128,11 @@ size_t					floor_raycast(t_player	*player, t_wall_params *wp,
 	return (get_pixel_at(floor, (int)x % floor->width, (int)y % floor->height));
 }
 
+/*
+** Makes the ceiling raycast
+*/
 size_t					ceiling_raycast(t_player *player, t_wall_params *wp,
-										double fov, t_mlx_img *floor)
+										double fov, t_mlx_img *ceiling)
 {
 	double				curdist;
 	double				weight;
@@ -143,6 +149,7 @@ size_t					ceiling_raycast(t_player *player, t_wall_params *wp,
 		/ cos(-fov));
 	x = ft_abs(x);
 	y = ft_abs(y);
-	return (get_pixel_at(floor, (int)x % floor->width, (int)y % floor->height));
+	return (get_pixel_at(ceiling, (int)x % ceiling->width
+						, (int)y % ceiling->height));
 
 }

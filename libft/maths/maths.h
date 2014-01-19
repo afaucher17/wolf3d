@@ -6,14 +6,14 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/04 13:28:15 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/16 10:54:29 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/16 13:13:45 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MATHS_H
 # define MATHS_H
 # define PI 3.14159265359
-# define RAD(degree) (PI * degree) / 180
+# define RAD(degree) ((PI * degree) / 180)
 # define ALEFT(angle) (angle >= PI / 2 && angle < 3 * PI / 2)
 # define ARIGHT(angle) !ALEFT(angle)
 # define AUP(angle) (angle < PI)
