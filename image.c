@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/17 13:11:43 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/19 17:56:59 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/19 19:12:59 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,16 @@ int				darken_color(int color, int bpp, char ratio)
 /*
 ** Redraws an image
 */
-void			img_redraw(t_mlx_img *img)
+void			img_redraw(t_env *env)
 {
+	t_mlx_img	*img;
+
+	img = env->img;
 	mlx_destroy_image(img->mlx_ptr, img->img_ptr);
 	mlx_new_image(img->mlx_ptr, img->width, img->height);
 	mlx_get_data_addr(img->img_ptr, &(img->bpp)
 						, &(img->size), &(img->endian));
-	draw_image(img);
+	draw_image(env);
 	mlx_put_image_to_window(img->mlx_ptr, img->win_ptr
 								, img->img_ptr, 0, 0);
 }

@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2013/12/18 17:33:32 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/19 17:58:37 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/19 18:54:25 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,10 @@ void				move_to(t_wall ***level, t_point *point,
 	y = point->y;
 	x += cos(rad) * dist;
 	y -= sin(rad) * dist;
-	if (!outofbounds(level, (int)(y / SQR), (int)(x / SQR))
-		&& level[(int)(y / SQR)][(int)(x / SQR)]->type)
-			return ;
-	point->x = x;
-	point->y = y;
+	if (!outofbounds(level, (int)(y / SQR), (int)(point->x / SQR))
+		&& level[(int)(y / SQR)][(int)(point->x / SQR)]->type == 0)
+		point->y = y;
+	if (!outofbounds(level, (int)(point->y / SQR), (int)(x / SQR))
+		&& level[(int)(point->y / SQR)][(int)(x / SQR)]->type == 0)
+		point->x = x;
 }

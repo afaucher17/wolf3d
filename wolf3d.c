@@ -6,16 +6,17 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/09 12:43:19 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/19 18:00:26 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/19 19:13:20 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "wolf3d.h"
 
-static int		expose_hook(t_mlx_img *img)
+static int		expose_hook(t_env *env)
 {
-	draw_image(img);
-	mlx_put_image_to_window(img->mlx_ptr, img->win_ptr, img->img_ptr, 0, 0);
+	draw_image(env);
+	mlx_put_image_to_window(env->img->mlx_ptr, env->img->win_ptr
+							, env->img->img_ptr, 0, 0);
 	return (1);
 }
 
@@ -26,6 +27,7 @@ static int		keypress_hook(int keycode, t_env *env)
 	env->key_left = (keycode == KEY_LEFT) ? 1 : env->key_left;
 	env->key_up = (keycode == KEY_UP) ? 1 : env->key_up;
 	env->key_down = (keycode == KEY_DOWN) ? 1 : env->key_down;
+	env->key_m = (keycode == KEY_M) ? 1 : env->key_m;
 	return (0);
 }
 
@@ -36,6 +38,7 @@ static int		keyrelease_hook(int keycode, t_env *env)
 	env->key_left = (keycode == KEY_LEFT) ? 0 : env->key_left;
 	env->key_up = (keycode == KEY_UP) ? 0 : env->key_up;
 	env->key_down = (keycode == KEY_DOWN) ? 0 : env->key_down;
+	env->key_m = (keycode == KEY_M) ? 0 : env->key_m;
 	return (0);
 }
 
@@ -49,12 +52,12 @@ static int		loop_hook(t_env *env)
 	player->rad += (env->key_right) ? -PI / 20 : 0;
 	player->rad += (env->key_left) ? PI / 20 : 0;
 	if (env->key_up)
-		move_to(env->img->game->level, player->position, player->rad, SQR / 10);
+		move_to(env->img->game->level, player->position, player->rad, SQR / 5);
 	if (env->key_down)
 		move_to(env->img->game->level, player->position,
-				player->rad, -(SQR / 10));
+				player->rad, -(SQR / 5));
 	player->rad = ft_getrad(player->rad);
-	img_redraw(env->img);
+	img_redraw(env);
 	return (0);
 }
 
@@ -83,6 +86,6 @@ void			wolf3d(char *str, int fd)
 	mlx_hook(win_ptr, 2, (1L << 0), keypress_hook, env);
 	mlx_key_hook(win_ptr, keyrelease_hook, env);
 	mlx_loop_hook(mlx_ptr, loop_hook, env);
-	mlx_expose_hook(win_ptr, expose_hook, env->img);
+	mlx_expose_hook(win_ptr, expose_hook, env);
 	mlx_loop(mlx_ptr);
 }

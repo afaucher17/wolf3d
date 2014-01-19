@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/09 13:04:59 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/19 17:55:25 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/19 19:15:31 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,41 @@ void					draw_walls(t_game *game, t_player *player
 	free(wp);
 }
 
+void					draw_minimap(t_mlx_img *img)
+{
+	int					x;
+	int					y;
+
+	y = 0;
+	while (img->game->level[y])
+	{
+		x = 0;
+		while (img->game->level[y][x])
+		{
+			if (img->game->level[y][x]->type == 1)
+				pixel_to_img(img, (int)((9 * SIZE_X / 10) + x)
+							, (int)((SIZE_Y / 8) + y), 0xFFFFFF);
+			if ((img->game->player->position->x / SQR) == x
+				&& (img->game->player->position->y / SQR) == y)
+				pixel_to_img(img, (int)((9 * SIZE_X / 10) + x)
+							, (int)((SIZE_Y / 8) + y), 0x000000);
+			x++;
+		}
+		y++;
+	}
+}
+
 /*
 ** Draws the image
 */
-void					draw_image(t_mlx_img *img)
+void					draw_image(t_env *env)
 {
+	t_mlx_img			*img;
+
+	img = env->img;
 	if (!img || !img->game || !img->game->player)
 		return ;
 	draw_walls(img->game, img->game->player, img);
+	if (env->key_m == 1)
+		draw_minimap(img);
 }

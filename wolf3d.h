@@ -6,7 +6,7 @@
 /*   By: afaucher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/01/03 15:56:49 by afaucher          #+#    #+#             */
-/*   Updated: 2014/01/19 18:00:35 by afaucher         ###   ########.fr       */
+/*   Updated: 2014/01/19 19:12:06 by afaucher         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define KEY_RIGHT 65363
 # define KEY_DOWN 65364
 # define KEY_ESC 65307
+# define KEY_M 109
 
 # define FOV 60.0
 # define SQR 256
@@ -82,6 +83,7 @@ typedef struct	s_env
 	char		key_left;
 	char		key_up;
 	char		key_down;
+	char		key_m;
 }				t_env;
 
 typedef struct	s_wall_params
@@ -110,7 +112,7 @@ t_mlx_img		*create_img(void *mlx_ptr, void *img_ptr
 							, int height, int width);
 t_mlx_img		*get_xpm_image(void *mlx_ptr, char *filename);
 int				darken_color(int color, int bpp, char ratio);
-void			img_redraw(t_mlx_img *img);
+void			img_redraw(t_env *env);
 
 /*
 ** point.c
@@ -143,7 +145,7 @@ t_player		*player_new(double x, double y, double z, double rad);
 ** draw_image.c
 */
 void			draw_walls(t_game *game, t_player *player, t_mlx_img *img);
-void			draw_image(t_mlx_img *img);
+void			draw_image(t_env *env);
 
 /*
 ** tab.c
